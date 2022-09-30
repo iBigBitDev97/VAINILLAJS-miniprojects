@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Simple DOM counter</title>
+    <style>
+        :root{
+            --warning:red;
+            --success:green;
+            --good:black;  
+        }
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body{
+            background-color: #11191f;
+            display: grid;
+            align-items: center;
+            justify-items: center;
+            width: 100%;
+            height: 100vh;
+        }
+        .counter{
+            color: aliceblue;
+            text-align: center;
+            font-size: 5rem;
+            margin: 10px 0;
+        }
+        .counter-button{
+            padding: 15px;
+            color:#fff;
+            background-color: transparent;
+            border: 1px solid ;
+        }
+    </style>
+  </head>
+
+  <body>
+    <main class="counter-Container">
+      <div>
+        <h1 class="counter">0</h1>
+        <button class="counter-button" id="buttonLess">Decrecer</button>
+        <button class="counter-button" id="buttonReset">Reiniciar</button>
+        <button class="counter-button" id="buttonMore">Aumentar</button>
+      </div>
+    </main>
+    <script>
+        const domSelector = (selector)=>document.querySelector(selector);
+        const $counterText = domSelector(".counter");
+        const $counterButtonLess = domSelector("#buttonLess");
+        const $counterButtonReset = domSelector("#buttonReset");
+        const $counterButtonMore = domSelector("#buttonMore");
+
+        let globalStateCount = 0;
+
+        const updateDisplay = value => $counterText.innerText = value;
+        
+
+        $counterButtonMore.addEventListener("click",function(){
+           globalStateCount+=1;
+           updateDisplay(globalStateCount);
+        });
+       $counterButtonLess.addEventListener("click",function(){
+          globalStateCount-=1;
+          updateDisplay(globalStateCount);
+       });
+       $counterButtonReset.addEventListener("click",function(){
+          globalStateCount=0;
+          updateDisplay(globalStateCount);
+       });
+       
+    </script>
+  </body>
+</html>
