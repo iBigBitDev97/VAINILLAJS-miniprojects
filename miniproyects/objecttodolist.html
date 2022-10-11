@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet">
+
+    <style>
+      body {
+        background-color: #11191f;
+        display: grid;
+        justify-content: center;
+        height: 90vh;
+        font-family: 'Roboto', sans-serif;
+      }
+      main{
+        margin: 20px 0;
+        display: flex;
+        flex-direction: column;
+        width: 80vw;
+        align-items: center;
+      }
+      .todo-form{
+        display: flex;
+        flex-direction: column;
+      
+      }
+      .todo-input{
+          padding: 10px 30px;
+          margin: 10px 0;
+          width: 50vw;
+          color: #fff;
+          font-size: 1.5em;
+          border-top: #fff;
+          background-color: #11191f;
+          border-radius: 15px;
+      }
+      .todo-button{
+        padding: 10px 0;
+        background-color: dodgerblue;
+        color: #fff;
+        border-radius: 15px;
+      }
+      .task-item{
+        background-color: #fff;
+        color: #11191f;
+        margin:10px 0;
+        padding: 5px 10px;
+        width: 50vw;
+      }
+      .task-item h2 {
+        font-size: 1.5rem;
+        font-weight: bold;
+        text-transform: uppercase;
+        border-radius: 30px;
+      }
+      h1{
+        font-size: 5rem;
+        font-weight: bold;
+        text-transform: uppercase;
+        color: #fff;        
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>My To-Do List</h1>
+      <form class="todo-form">
+        <input
+          type="text"
+          name=""
+          id=""
+          maxlength="15"
+          class="todo-input todo-input--title"
+          placeholder="titulo"
+          required
+        />
+        <input
+          type="text"
+          name=""
+          id=""
+          maxlength="32"
+          class="todo-input todo-input--body"
+          placeholder="tarea"
+          required
+        />
+
+        <input type="submit" value="Enviar" class="todo-button" />
+      </form>
+      <div class="task-list"></div>
+    </main>
+    <!------Scripts--------------------------------------->
+    <script>
+      const domItem = (selector) => document.querySelector(selector);
+      const $formTodo = domItem(".todo-form");
+      const $inputTodoBody = domItem(".todo-input--body");
+      const $inputTodoTitle = domItem(".todo-input--title");
+      const $buttonTodo = domItem(".todo-button");
+      const $listTask = domItem(".task-list");
+
+      const _private = new WeakMap();
+
+      class Task {
+        constructor(title, text) {
+          const properties = {
+            _title: title,
+            _text: text,
+          };
+          _private.set(this, { properties });
+        }
+        get title() {
+          return _private.get(this).properties["_title"];
+        }
+        get text() {
+          return _private.get(this).properties["_text"];
+        }
+
+        addTask(task) {
+          const taskItem = document.createElement("div");
+          taskItem.innerHTML = `
+              <div class="task-item">
+                <h2>${task.title}</h2>
+                <p>${task.text}</p>
+              <div>
+            `;
+
+          $listTask.appendChild(taskItem);
+        }
+        cleanForm() {
+          $formTodo.reset();
+        }
+      }
+
+      $formTodo.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const titleValue = $inputTodoTitle.value;
+        const bodyText = $inputTodoBody.value;
+        const task = {
+          title: titleValue,
+          text: bodyText,
+        };
+        const newTask = new Task();
+        newTask.addTask(task);
+        newTask.cleanForm();
+      });
+    </script>
+  </body>
+</html>
